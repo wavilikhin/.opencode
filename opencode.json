@@ -1,0 +1,59 @@
+{
+  "agent": {
+    "plan": {
+      "model": "github-copilot/gpt-5.2",
+      "reasoningEffort": "high",
+      "options": {
+        "reasoningEffort": "high"
+      },
+      "permission": {}
+    },
+    "build": {
+      "model": "github-copilot/claude-opus-4.5",
+      "options": {},
+      "permission": {}
+    },
+    "general": {
+      "model": "github-copilot/claude-opus-4.5",
+      "options": {},
+      "permission": {}
+    },
+    "explore": {
+      "model": "github-copilot/gemini-3-flash-preview",
+      "options": {},
+      "permission": {}
+    },
+    "staff-developer": {
+      "model": "github-copilot/claude-opus-4.5",
+      "options": {},
+      "permission": {}
+    },
+    "feature-tracer": {
+      "model": "github-copilot/gemini-3-flash-preview",
+      "options": {},
+      "permission": {}
+    },
+    "code-reviewer": {
+      "model": "github-copilot/gpt-5.2",
+      "reasoningEffort": "high",
+      "options": {
+        "reasoningEffort": "high"
+      },
+      "permission": {}
+    },
+    "frontend-designer": {
+      "model": "github-copilot/gemini-3-pro-preview",
+      "options": {},
+      "permission": {}
+    },
+    "system-architect": {
+      "model": "github-copilot/gpt-5.2",
+      "reasoningEffort": "high",
+      "options": {
+        "reasoningEffort": "high"
+      },
+      "permission": {}
+    }
+  },
+  "$schema": "https://opencode.ai/config.json"
+}
