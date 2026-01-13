@@ -1,4 +1,19 @@
 {
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "ctx7sk-e1f57d0c-d628-4ae0-afdf-f688cf860135"
+      },
+      "enabled": false
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
+      "enabled": false
+    }
+  },
   "agent": {
     "plan": {
       "model": "github-copilot/gpt-5.2",

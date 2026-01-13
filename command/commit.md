@@ -91,7 +91,8 @@ Create a git commit that respects project conventions, inferred style, and commi
 
 ### 6. **Breaking changes:**
 
-   - Add `!` after type/scope: `feat(storage)!: migrate to IndexedDB`
+   - For breaking changes, add exclamation mark after type/scope
+   - Example: feat(storage)!: migrate to IndexedDB
    - Or add footer: `BREAKING CHANGE: description`
 
 ### 7. **Execute commit:**
