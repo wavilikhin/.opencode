@@ -1,1 +1,0 @@
-/Users/vladislavvavilihin/.config/opencode/superpowers/.opencode/plugin/superpowers.js
