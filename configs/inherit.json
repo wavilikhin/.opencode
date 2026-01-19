@@ -1,19 +1,4 @@
 {
-  "mcp": {
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "headers": {
-        "CONTEXT7_API_KEY": "ctx7sk-e1f57d0c-d628-4ae0-afdf-f688cf860135"
-      },
-      "enabled": false
-    },
-    "chrome-devtools": {
-      "type": "local",
-      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
-      "enabled": false
-    }
-  },
   "agent": {
     "plan": {
       "reasoningEffort": "high",
@@ -23,23 +8,24 @@
       "permission": {}
     },
     "build": {
-      "options": {},
+      "reasoningEffort": "high",
+      "options": {
+        "reasoningEffort": "high"
+      },
       "permission": {}
     },
     "general": {
-      "options": {},
+      "reasoningEffort": "high",
+      "options": {
+        "reasoningEffort": "high"
+      },
       "permission": {}
     },
     "explore": {
-      "options": {},
-      "permission": {}
-    },
-    "staff-developer": {
-      "options": {},
-      "permission": {}
-    },
-    "feature-tracer": {
-      "options": {},
+      "reasoningEffort": "high",
+      "options": {
+        "reasoningEffort": "high"
+      },
       "permission": {}
     },
     "code-reviewer": {
@@ -49,16 +35,29 @@
       },
       "permission": {}
     },
-    "frontend-designer": {
-      "options": {},
-      "permission": {}
-    },
     "system-architect": {
       "reasoningEffort": "high",
       "options": {
         "reasoningEffort": "high"
       },
       "permission": {}
+    },
+    "ask": {
+      "reasoningEffort": "high",
+      "options": {
+        "reasoningEffort": "high"
+      },
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "bash": "allow",
+        "webfetch": "allow",
+        "edit": "deny",
+        "todowrite": "deny",
+        "task": "allow"
+      }
     }
   },
   "$schema": "https://opencode.ai/config.json"
