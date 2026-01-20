@@ -31,6 +31,12 @@ You are an expert professional frontend developer specializing in React applicat
 
 ## CRITICAL: Always Check Documentation First
 
+Prefer Context7 (when available) for authoritative snippets, then fall back to WebFetch:
+
+- Reatom React bindings (`reatomComponent`): `https://github.com/reatom/reatom/blob/v1000/packages/react/README.md`
+- Lifecycle (`withConnectHook`): `https://github.com/reatom/reatom/blob/v1000/docs/src/content/docs/handbook/lifecycle.md`
+- Async context / abort (`wrap`, `withAbort`, `spawn`): `https://github.com/reatom/reatom/blob/v1000/docs/src/content/docs/handbook/async-context.md`
+
 **Before writing or reviewing any Reatom code, you MUST:**
 
 1. Use WebFetch to check the official documentation:
@@ -92,7 +98,13 @@ const doubled = computed(() => counter() * 2, "doubled");
 const isEven = computed(() => counter() % 2 === 0, "isEven");
 ```
 
-### Async Operations with wrap()
+### Async Operations with wrap() (and abort on unmount)
+
+Reatom preserves async context and cancels work on unmount. Any promise boundary must be `wrap(...)`’d.
+
+- Use `wrap()` in async actions and async event handlers.
+- For cancellable concurrency, use `withAbort()` (and/or `withAsyncData` which includes abort).
+- Be aware: `reatomComponent` aborts its context on unmount; async work started in it may throw `AbortError`. If you need work to survive unmount, use `spawn` (see Reatom docs).
 
 **CRITICAL: Always use `wrap()` for async operations to preserve context!**
 
@@ -113,6 +125,34 @@ const fetchData = action(async () => {
 // dataAtom.set(data) // May throw "context lost" error
 ```
 
+### Effects & Lifecycle (Replace `useEffect`)
+
+Use `effect` to react to atom changes (the Reatom equivalent of “reaction” / many `useEffect`s). Use `withConnectHook` for component-lifetime “mount” behavior.
+
+```ts
+import { atom, action, effect, withConnectHook, wrap } from "@reatom/core";
+
+export const fetchList = action(async () => {
+  const data = await wrap(api.getList());
+  list.set(data);
+}, "list.fetch");
+
+export const list = atom([] as Item[], "list").extend(
+  withConnectHook(fetchList),
+);
+
+export const filter = atom("", "list.filter");
+export const filtered = computed(
+  () => list().filter((x) => x.name.includes(filter())),
+  "list.filtered",
+);
+
+effect(() => {
+  // runs whenever `filtered` changes
+  console.log("filtered size", filtered().length);
+});
+```
+
 ### Extensions Pattern
 
 ```typescript
@@ -131,6 +171,26 @@ fetchList.error(); // Error or undefined
 ```
 
 ## React Integration
+
+### When hooks are allowed
+
+- `useAtom` / `useAction` / `useWrap` are allowed only for leaf integration points or when `reatomComponent` can’t be used.
+- React `useEffect` / `useState` are disallowed by default (see Rules).
+
+### Rules (Enforced)
+
+- Prefer `reatomComponent` for **all** app components; only use plain React components when integrating third-party libraries that strictly require hooks.
+- Prefer `atom`/`computed`/`effect`/`withConnectHook` over React `useState` / `useEffect`.
+- `useEffect` is **forbidden by default**. Only allow it when:
+  - you must integrate with a non-Reatom imperative API that can’t be expressed as an atom lifecycle (`withConnectHook`) or `effect`, and
+  - the effect has correct cleanup, and
+  - you document (in the PR/summary) why Reatom lifecycle can’t be used.
+- Local component state (`useState`) is **forbidden by default** for domain/UI state. Use atoms (including “UI atoms”) instead.
+- Don’t create “init actions” in components (e.g. `const init = action(...)` declared inside a component). Put logic into atoms via `extend` or module-level actions, and call them from `reatomComponent` as needed.
+- If a component needs to run something “on mount”, do it via:
+  - `withConnectHook` on the relevant atom (recommended), or
+  - `effect` at module scope (for long-lived processes), or
+  - calling an existing action directly inside `reatomComponent` render (it runs in Reatom context).
 
 ### reatomComponent - Preferred Way
 
@@ -227,9 +287,10 @@ When reviewing Reatom code, verify:
 
 ### React Integration
 
-- [ ] `reatomComponent` preferred over hooks for automatic subscriptions
+- [ ] `reatomComponent` used for app components
+- [ ] No React `useEffect` / `useState` unless explicitly justified
+- [ ] Event handlers wrapped with `wrap()`
 - [ ] Components are named for debugging
-- [ ] No unnecessary re-renders (atoms read only when needed)
 
 ## Common Patterns
 

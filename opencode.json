@@ -1,4 +1,12 @@
 {
+  "tui": {
+    "scroll_acceleration": { "enabled": true },
+    "diff_style": "auto"
+  },
+  "compaction": {
+    "prune": false
+  },
+  "small_model": "github-copilot/gpt-4.1",
   "mcp": {
     "context7": {
       "type": "remote",
