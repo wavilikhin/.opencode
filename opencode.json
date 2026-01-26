@@ -20,6 +20,16 @@
       "type": "local",
       "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
       "enabled": false
+    },
+    "playwright-plus": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@ai-coding-labs/playwright-mcp-plus@latest",
+        "--project-isolation"
+      ],
+      "enabled": false
     }
   },
   "$schema": "https://opencode.ai/config.json"

@@ -19,7 +19,7 @@
       "permission": {}
     },
     "explore": {
-      "model": "github-copilot/gemini-3-flash-preview",
+      "model": "github-copilot/claude-haiku-4.5",
       "options": {},
       "permission": {}
     },
